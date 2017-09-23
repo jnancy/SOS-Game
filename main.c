@@ -20,7 +20,6 @@
 #define PLAYER2 2
 #define CPU 2
 
-//optional** allow players to enter usernames
 
 int gameChoice();
 void clearGrid(int grid[NUMROWS][NUMCOLS]);
@@ -34,6 +33,7 @@ int isFull(int grid[NUMROWS][NUMCOLS]);
 void endMessage(int score[]);
 
 int main(void){
+    //TODO: allow players to enter usernames
     
     //scores set to 0 initially
     int currentPlayer = 1;
@@ -53,21 +53,17 @@ int main(void){
         while(!isFull(grid)){
             while(singlePlay(grid, currentPlayer, score)){
             }
-            if(currentPlayer == 1){
+            if(currentPlayer == 1)
                 currentPlayer++;
-            }
-            else{
+            else
                 currentPlayer--;
-            }
         }
         endMessage(score);
-    }
-    
+    }   
     else if(choice == 2){
         printGrid(grid);
         printf("work in progress..CPU algorithm is still being created");
-    }
-    
+    }    
     else{
         printf("ERROR: invalid choice");
     }
@@ -128,23 +124,17 @@ void printGrid(int grid[NUMROWS][NUMCOLS]){
     for(row=0; row<NUMROWS; row++){
         printf("%d|",row+1);
         for(column = 0; column<NUMCOLS; column++){
-            if(grid[row][column] == 0){
-                printf("___|");
-                
-            }
-            else if(grid[row][column] == 1){
+            if(grid[row][column] == 0)
+                printf("___|");              
+            else if(grid[row][column] == 1)
                 printf("_S_|");
-            }
-            else{
+            else
                 printf("_O_|");
-            }
         }
         printf("\n");
     }
     printf("\n");
 }
-
-
 
 /* purpose: runs a single human move
  * parameters: - the 2D array representing the grid
@@ -156,13 +146,9 @@ void printGrid(int grid[NUMROWS][NUMCOLS]){
  */
 int singlePlay(int grid[NUMROWS][NUMCOLS], int player, int score[]){
     int row, column, letter, wins;
-    if(player ==1){
-        printf("Player %d, it's your turn!\n\n", player);
-        printf("NANNNCYYYY\n\n");
-    }
-    else{
-        printf("meIPi\n\n");
-    }
+    
+    printf("Player %d, it's your turn!\n\n", player);
+
     printf("Please choose the row number and column number you would like to place your letter in.\n");
     printf("Row:");
     scanf("%d", &row);
@@ -174,16 +160,13 @@ int singlePlay(int grid[NUMROWS][NUMCOLS], int player, int score[]){
     
     //ensures that the chosen slot is empty and within the the array, and that S or O was selected
     while(grid[row-1][column-1]!=0 || (letter!=1 && letter !=2) || row>NUMROWS || column>NUMCOLS){
-        printf("\n");
-        if(grid[row-1][column-1]!=0){
-            printf("ERROR: Please select an empty slot.\n");
-        }
-        if(letter!=1 && letter !=2){
-            printf("ERROR: Please enter the appropriate number representing your chosen letter.\n");
-        }
-        if(row>NUMROWS || column>NUMCOLS){
-            printf("ERROR: Selected position is out of bounds.\n");
-        }
+        if(grid[row-1][column-1]!=0)
+            printf("\nERROR: Please select an empty slot.\n");
+        if(letter!=1 && letter !=2)
+            printf("\nERROR: Please enter the appropriate number representing your chosen letter.\n");
+        if(row>NUMROWS || column>NUMCOLS)
+            printf("\nERROR: Selected position is out of bounds.\n");
+  
         printf("\n");
         printf("Please choose the row number and column number you would like to place your letter in.\n");
         printf("Row:");
@@ -195,18 +178,16 @@ int singlePlay(int grid[NUMROWS][NUMCOLS], int player, int score[]){
         scanf("%d", &letter);
     }
 
-    grid[row-1][column-1] = letter;
-    
+    grid[row-1][column-1] = letter;    
     printGrid(grid);
     
-    wins = checkGrid(grid, row, column);
-    
+    wins = checkGrid(grid, row, column);   
     score[player-1]+=wins;
-    printf("Nancy: %d points\nMeiqi: %d points\n\n", score[0], score[1]);
+    printf("P1: %d points\nP2: %d points\n\n", score[0], score[1]);
     
-    if (wins > 0){
+    if (wins > 0)
         return 1;
-    }
+    
     return 0;
 }
 
@@ -293,26 +274,14 @@ int checkDiagonal(int grid[NUMROWS][NUMCOLS], int row, int column){
     row--;
     column--;
     if(grid[row][column] == S){
-        if(grid[row-1][column-1] == O && grid[row-2][column-2] == S){
-            wins++;
-        }
-        if(grid[row-1][column+1] == O && grid[row-2][column+2] == S){
-            wins++;
-        }
-        if(grid[row+1][column-1] == O && grid[row+2][column-2] == S){
-            wins++;
-        }
-        if(grid[row+1][column+1] == O && grid[row+2][column+2] == S){
-            wins++;
-        }
+        if(grid[row-1][column-1] == O && grid[row-2][column-2] == S) wins++;
+        if(grid[row-1][column+1] == O && grid[row-2][column+2] == S) wins++;
+        if(grid[row+1][column-1] == O && grid[row+2][column-2] == S) wins++;
+        if(grid[row+1][column+1] == O && grid[row+2][column+2] == S) wins++;
     }
     else{
-        if(grid[row-1][column-1] == S && grid[row+1][column+1] == S){
-            wins++;
-        }
-        if(grid[row-1][column+1] == S && grid[row+1][column-1] == S){
-            wins++;
-        }
+        if(grid[row-1][column-1] == S && grid[row+1][column+1] == S) wins++;
+        if(grid[row-1][column+1] == S && grid[row+1][column-1] == S) wins++;
     }
     if(wins!=0){
         printf("%d diagonal SOS\n",wins);
@@ -329,25 +298,19 @@ int isFull(int grid[NUMROWS][NUMCOLS]){
     int row, column;
     for(row = 0; row<NUMROWS; row++){
         for(column = 0; column<NUMCOLS; column++){
-            if(grid[row][column] == 0){
-                return 0;
-            }
+            if(grid[row][column] == 0) return 0;
         }
     }
     return 1;
 }
 
 /* purpose: displays a message at the end of the game, depending on the winner of the game
- * parameters:
+ * parameters: score - the array containing the two players' final scores
  */
 void endMessage(int score[]){
  printf("The final scores are %d vs %d.\n", score[0], score[1]);
- if(score[0]>score[1]){
- printf("Congrats Nancy!\n");
- printf("Better luck next time Meiqi!\n");
- }
- else{
- printf("Congrats Nancy!\n");
- printf("Better luck next time Meiqi!\n");
- }
+ if(score[0]>score[1])
+    printf("Congrats P1!\n Better luck next time P2!\n");
+ else
+    printf("Congrats P2!\n Better luck next time P1!\n");
 }
