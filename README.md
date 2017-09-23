@@ -1,6 +1,7 @@
 ## SOS (game)
 ### General Info:
 - plays a game of SOS
+- adjustable grid size
 - only player vs player version completed (player vs computer is still being developed)
 
 ### Complete rules: 
